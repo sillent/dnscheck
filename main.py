@@ -3,6 +3,7 @@
 import sys
 import DNS
 from myexception import IPError, DNSError
+from checkers import common
 
 
 def __str__():
@@ -12,15 +13,15 @@ def __str__():
     '''
 
 
-def checkDNS(dns_ip, name, *args):
+def main(dns_ip, name, *args):
     try:
-        ip = checkIp(dns_ip)
+        ip = common.checkIp(dns_ip)
     except IPError.IPValidError:
         print >> sys.stderr, IPError.IPValidError("invalid ip")
         sys.exit(1)
 
     try:
-        dname = checkName(name)
+        dname = common.checkName(name)
     except DNSError.DNSNameError:
         print >> sys.stderr, DNSError.DNSNameError("Name not valid < 1 byte")
         sys.exit(1)
@@ -31,4 +32,4 @@ def checkDNS(dns_ip, name, *args):
 if len(sys.argv) < 2:
     print >> sys.stderr, "Usage: {0} ip name".format(sys.argv[0])
 else:
-    checkDNS(sys.argv[1], sys.argv[2])
+    main(sys.argv[1], sys.argv[2])
